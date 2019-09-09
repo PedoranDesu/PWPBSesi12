@@ -81,6 +81,7 @@ public class MainFragment extends Fragment implements View.OnClickListener,RVAda
             setupRV();
             edtName.setText("");
             edtAge.setText("");
+            edtName.setFocusableInTouchMode(true);
             edtName.setFocusable(true);
             btnSubmit.setText("Submit");
         }
