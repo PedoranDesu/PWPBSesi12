@@ -21,6 +21,7 @@
             android:orientation="vertical">
 
             <EditText
+                android:hint="Nama Siswa"
                 android:id="@+id/edtname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,6 +31,7 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:hint="Usia Siswa"
                 android:id="@+id/edtage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

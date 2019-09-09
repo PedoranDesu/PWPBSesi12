@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -62,29 +63,34 @@ public class MainFragment extends Fragment implements View.OnClickListener,RVAda
 
     @Override
     public void onClick(View view) {
-        Log.d("DEBUG","Button Clicked");
-        if(view.getId()==R.id.btnsubmit){
-            DatabaseHelper db = new DatabaseHelper(context);
-            Person jalmi = new Person();
-            String btnStatus = btnSubmit.getText().toString();
+        if(!edtName.getText().toString().equals("")&&!edtAge.getText().toString().equals("")){
+            if(view.getId()==R.id.btnsubmit){
+                DatabaseHelper db = new DatabaseHelper(context);
+                Person jalmi = new Person();
+                String btnStatus = btnSubmit.getText().toString();
 
-            if(btnStatus.equals("Submit")){
-                jalmi.setName(edtName.getText().toString());
-                jalmi.setAge(Integer.parseInt(edtAge.getText().toString()));
-                db.insert(jalmi);
+                if(btnStatus.equals("Submit")){
+                    jalmi.setName(edtName.getText().toString());
+                    jalmi.setAge(Integer.parseInt(edtAge.getText().toString()));
+                    db.insert(jalmi);
+                }
+                if(btnStatus.equals("Update")){
+                    jalmi.setName(edtName.getText().toString());
+                    jalmi.setAge(Integer.parseInt(edtAge.getText().toString()));
+                    db.update(jalmi);
+                }
+                setupRV();
+                edtName.setText("");
+                edtAge.setText("");
+                edtName.setFocusableInTouchMode(true);
+                edtName.setFocusable(true);
+                btnSubmit.setText("Submit");
             }
-            if(btnStatus.equals("Update")){
-                jalmi.setName(edtName.getText().toString());
-                jalmi.setAge(Integer.parseInt(edtAge.getText().toString()));
-                db.update(jalmi);
-            }
-            setupRV();
-            edtName.setText("");
-            edtAge.setText("");
-            edtName.setFocusableInTouchMode(true);
-            edtName.setFocusable(true);
-            btnSubmit.setText("Submit");
+        }else{
+            Toast.makeText(context,"Isi dulu datanya!",Toast.LENGTH_LONG).show();
         }
+        Log.d("DEBUG","Button Clicked");
+
     }
 
     private void setupRV(){
@@ -99,12 +105,14 @@ public class MainFragment extends Fragment implements View.OnClickListener,RVAda
     @Override
     public void onUserClick(Person person, String action) {
         if(action.equals("Edit")){
+            Toast.makeText(context,"Data "+person.getName()+" akan diedit umurnya!",Toast.LENGTH_SHORT).show();
             edtName.setText(person.getName());
             edtName.setFocusable(false);
             edtAge.setText(person.getAge()+"");
             btnSubmit.setText("Update");
         }
         if (action.equals("Delete")){
+            Toast.makeText(context,"Data "+person.getName()+" dihapus!",Toast.LENGTH_SHORT).show();
             DatabaseHelper db = new DatabaseHelper(context);
             db.delete(person.getName());
             setupRV();
